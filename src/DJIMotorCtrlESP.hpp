@@ -775,7 +775,7 @@ void can_init(uint8_t TX_PIN, uint8_t RX_PIN,int current_update_hz){
     can_setup(TX_PIN,RX_PIN);
     xTaskCreate(update_current_task,"update_current_task",4096,&current_update_hz,5,nullptr);//电流控制任务
     for(int i=1;i<=0xB;i++){//添加电机反馈函数到can回调map
-        add_user_can_func(0x20+i,moto_fb_fun);
+        add_user_can_func(0x200+i,moto_fb_fun);
     }
 }
 
