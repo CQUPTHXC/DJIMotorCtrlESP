@@ -1,35 +1,36 @@
 #include "../../include/DJIMotorCtrlESP.hpp"
 
 /* 速度控制 */
+
 // 3508电机
-M3508_P19 MOTOR(1);
-void setup()
-{
-  can_init(8, 18, 100);
-}
-void loop()
-{
-  MOTOR.set_speed(50, 10);
-}
+M3508_P19 MOTOR1(/*ID=*/1);
 
 // 2006电机
-M2006_P19 MOTOR(1);
-void setup()
-{
-  can_init(8, 18, 100);
-}
-void loop()
-{
-  MOTOR.set_speed(50, 10);
-}
+M2006_P19 MOTOR2(/*ID=*/2);
 
 // GM6020电机
-GM6020 MOTOR(1);
+GM6020 MOTOR3(/*ID=*/3);
+
 void setup()
 {
-  can_init(8, 18, 100);
+  // CAN初始化
+  can_init(8, 18, 500);
+  
+  MOTOR1.setup();
+  MOTOR2.setup();
+  MOTOR3.setup();
 }
 void loop()
 {
-  MOTOR.set_speed(100, 10);
+  MOTOR1.set_speed(200);
+  MOTOR2.set_speed(200);
+  MOTOR3.set_speed(200);
+  delay(5000);
+  MOTOR1.set_speed(0);
+  MOTOR2.set_speed(0);
+  MOTOR3.set_speed(0);
+  delay(5000);
+
 }
+
+

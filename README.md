@@ -5,7 +5,7 @@
 [![Compile Examples](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/workflows/Compile%20Examples/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions?workflow=Compile+Examples)
 [![Check Arduino](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml)
 [![Check keywords.txt](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml)
-[![General Formatting Checks](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions?workflow=General+Formatting+Checks)
+
 ## 概述
 该模块可用于esp32芯片arduino框架的大疆电机控制。
 esp32系列只需要外挂一颗CAN收发器，即可实现大疆电机控制。
