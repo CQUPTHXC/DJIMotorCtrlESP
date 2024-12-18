@@ -1,6 +1,9 @@
 #include "../../include/DJIMotorCtrlESP.hpp"
-
+#include "../../include/HXC_TWAI.hpp"
 /* 速度控制 */
+
+
+HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 
 // 3508电机
 M3508_P19 MOTOR1(/*ID=*/1);
@@ -14,7 +17,7 @@ GM6020 MOTOR3(/*ID=*/3);
 void setup()
 {
   // CAN初始化
-  can_init(8, 18, 500);
+  CAN_BUS.setup();
   
   MOTOR1.setup();
   MOTOR2.setup();

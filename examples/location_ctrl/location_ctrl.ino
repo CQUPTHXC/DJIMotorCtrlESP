@@ -1,18 +1,13 @@
-/*
- * @LastEditors: qingmeijiupiao
- * @Description: 
- * @Author: qingmeijiupiao
- * @Date: 2024-10-27 19:58:54
- */
 #include "../../include/DJIMotorCtrlESP.hpp"
-
+#include "../../include/HXC_TWAI.hpp"
 /* 位置控制 */
-
+HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 // 3508电机
-M3508_P19 MOTOR(1);
+M3508_P19 MOTOR(&CAN_BUS,1);
 void setup()
 {
-    can_init(8, 18, 100);
+    CAN_BUS.setup();
+
     MOTOR.setup();
 }
 void loop()
