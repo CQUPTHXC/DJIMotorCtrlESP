@@ -3,7 +3,7 @@
  * @Description: 用于控制大疆电机
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2024-12-18 21:48:15
+ * @LastEditTime: 2024-12-28 13:56:03
  * @LastEditors: qingmeijiupiao
  * @rely:PID_CONTROL.hpp,ESP_CAN.hpp
  */
@@ -166,7 +166,7 @@ protected:
     };
 
     //默认构造函数放这里是为了解决GM6020的初始化问题
-    DJI_MOTOR();
+    DJI_MOTOR(){};
 
     HXC_CAN* can;               // CAN总线对象
     uint8_t ID;                 // 电机ID（1-8）
@@ -194,21 +194,32 @@ protected:
     int control_frequency = 1000;  // 控制频率（单位：Hz）
 
     // CAN总线和电机对象的映射关系
-    struct can_bus_and_motor {
-        HXC_CAN* can_bus;
+    struct can_bus_to_motor {
         DJI_MOTOR* motor[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
         DJI_MOTOR* GM6020_motor[7] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
         uint16_t send_frequency = 1000;//发送频率 HZ
     };
 
-    static std::map<HXC_CAN*, can_bus_and_motor> can_bus_map;  // CAN总线与电机的映射表
+    static std::map<HXC_CAN*, can_bus_to_motor> can_bus_map;  // CAN总线与电机的映射表
 
+    // 电流控制任务的优先级
+    constexpr static int current_task_Priority = 5;
+    // 电流控制任务的堆栈大小  
+    constexpr static int current_task_stack_size = 4096;
     // 电流控制更新任务
     static void update_current_task(void* p);
 
+    // 速度控制任务的优先级
+    constexpr static int speed_task_Priority = 5;  
+    // 速度控制任务的堆栈大小
+    constexpr static int speed_task_stack_size = 4096;
     // 速度闭环控制任务
     static void speed_contral_task(void* n);
 
+    // 位置控制任务的优先级
+    constexpr static int location_task_Priority = 5;  
+    // 位置控制任务的堆栈大小
+    constexpr static int location_task_stack_size = 4096;
     // 位置闭环控制任务
     static void location_contral_task(void* n);
 };
@@ -311,8 +322,8 @@ void DJI_MOTOR::setup(bool is_enable){
         can->setup(CAN_RATE_1MBIT);
     }
     if(can_bus_map.find(can)==can_bus_map.end()){
-        can_bus_map[can]=can_bus_and_motor();
-        xTaskCreate(update_current_task,"can_bus_task",4096,can,2,NULL);
+        can_bus_map[can]=can_bus_to_motor();
+        xTaskCreate(update_current_task,"can_bus_task",current_task_stack_size,can,current_task_Priority,NULL);
     }
 
     if(this->can_data.is_GM6020){
@@ -324,7 +335,7 @@ void DJI_MOTOR::setup(bool is_enable){
     if(is_enable){
         can_data.enable=true;
         if(speed_func_handle==nullptr){
-            xTaskCreate(speed_contral_task,"speed_contral_task",4096,this,2,&speed_func_handle);
+            xTaskCreate(speed_contral_task,"speed_contral_task",speed_task_stack_size,this,speed_task_Priority,&speed_func_handle);
         }
     }
 };
@@ -382,7 +393,7 @@ void DJI_MOTOR::set_max_curunt(float _max_curunt){
 void DJI_MOTOR::set_location(int64_t _location){
     //开启位置闭环控制任务
     if(location_func_handle==nullptr){
-        xTaskCreate(location_contral_task,"location_contral_task",4096,this,2,&location_func_handle);
+        xTaskCreate(location_contral_task,"location_contral_task",location_task_stack_size,this,location_task_Priority,&location_func_handle);
     }
     location_taget=_location;
 }
@@ -421,7 +432,7 @@ void DJI_MOTOR::load(){
     taget_speed = 0;
     this->can_data.enable=true;
     if(speed_func_handle==nullptr){
-        xTaskCreate(speed_contral_task,"speed_contral_task",4096,this,2,&speed_func_handle);
+        xTaskCreate(speed_contral_task,"speed_contral_task",speed_task_stack_size,this,speed_task_Priority,&speed_func_handle);
     }
 }
 
@@ -445,7 +456,7 @@ void DJI_MOTOR::set_speed(float speed,float acce){
         location_func_handle=nullptr;
     }
     if(speed_func_handle==nullptr){
-        xTaskCreate(speed_contral_task,"speed_cspeed_func_handleontral_task",4096,this,2,&speed_func_handle);
+        xTaskCreate(speed_contral_task,"speed_cspeed_func_handleontral_task",speed_task_stack_size,this,speed_task_Priority,&speed_func_handle);
     }
     taget_speed = speed;
     acceleration=acce;
@@ -560,15 +571,16 @@ void DJI_MOTOR::location_contral_task(void* n){
     }
 };
 
-//更新电流控制任务
+//更新电流控制任务,每个can总线对应一个电流任务
 void DJI_MOTOR::update_current_task(void* p){
-    
+    //获取can总线
     HXC_CAN* can_bus = (HXC_CAN*)p;
-    can_bus_and_motor motors = can_bus_map[can_bus];
+
+    //获取can总线对应的电机
+    can_bus_to_motor& motors = can_bus_map[can_bus];
     while(1){
         int16_t current_data[8]={0,0,0,0,0,0,0,0};
-        int16_t GM6020_current_data[8]={0,0,0,0,0,0,0,0};
-        
+        int16_t GM6020_current_data[7]={0,0,0,0,0,0,0};
         for(int i=0;i<7;i++){
             if(motors.motor[i] != nullptr){
                 if(motors.motor[i]->can_data.enable){
@@ -586,6 +598,7 @@ void DJI_MOTOR::update_current_task(void* p){
                 current_data[7] = motors.motor[7]->can_data.set_current;
             }
         }
+        
         if(current_data[0]!=0 || current_data[1]!=0 || current_data[2]!=0 || current_data[3]!=0){
             HXC_CAN_message_t tx_msg;
             tx_msg.data_length_code=8;
@@ -600,7 +613,7 @@ void DJI_MOTOR::update_current_task(void* p){
             tx_msg.data[5] = current_data[2]&0xff;
             tx_msg.data[6] = current_data[3] >> 8;
             tx_msg.data[7] = current_data[3]&0xff;
-            can_bus->can_send(&tx_msg);
+            can_bus->send(&tx_msg);
         }
 
         //如果启用了(C620 C610)5-8号任意一个电机就更新电流
@@ -618,7 +631,7 @@ void DJI_MOTOR::update_current_task(void* p){
             tx_msg.data[5] = current_data[6]&0xff;
             tx_msg.data[6] = current_data[7] >> 8;
             tx_msg.data[7] = current_data[7]&0xff;
-            can_bus->can_send(&tx_msg);
+            can_bus->send(&tx_msg);
         }
         //如果启用了GM6020 1-4号任意一个电机就更新电流
         if(GM6020_current_data[0]!=0 || GM6020_current_data[1]!=0 || GM6020_current_data[2]!=0 || GM6020_current_data[3]!=0){
@@ -635,7 +648,7 @@ void DJI_MOTOR::update_current_task(void* p){
             tx_msg.data[5] = GM6020_current_data[2]&0xff;
             tx_msg.data[6] = GM6020_current_data[3] >> 8;
             tx_msg.data[7] = GM6020_current_data[3]&0xff;
-            can_bus->can_send(&tx_msg);
+            can_bus->send(&tx_msg);
         }
         //如果启用了GM6020 5-8号任意一个电机就更新电流
         if(GM6020_current_data[4]!=0 || GM6020_current_data[5]!=0 || GM6020_current_data[6]!=0){
@@ -652,14 +665,14 @@ void DJI_MOTOR::update_current_task(void* p){
             tx_msg.data[5] = GM6020_current_data[6]&0xff;
             tx_msg.data[6] = 0;
             tx_msg.data[7] = 0;
-            can_bus->can_send(&tx_msg);
+            can_bus->send(&tx_msg);
         }
         //延时
         delay(1000/motors.send_frequency);
     }
 }
 
-std::map<HXC_CAN*, DJI_MOTOR::can_bus_and_motor> DJI_MOTOR::can_bus_map={};
+std::map<HXC_CAN*, DJI_MOTOR::can_bus_to_motor> DJI_MOTOR::can_bus_map={};
 
 /*↓↓↓↓↓内部类DJI_MOTOR_DATA的实现↓↓↓↓↓*/
 
@@ -758,7 +771,7 @@ void M3508_P19::set_speed(float speed,float acce){
         location_func_handle=nullptr;
     }
     if(speed_func_handle==nullptr){
-        xTaskCreate(speed_contral_task,"speed_cspeed_func_handleontral_task",4096,this,2,&speed_func_handle);
+        xTaskCreate(speed_contral_task,"speed_cspeed_func_handleontral_task",speed_task_stack_size,this,speed_task_Priority,&speed_func_handle);
     }
     taget_speed = speed*19.0;
     acceleration=acce;
@@ -792,7 +805,7 @@ void M2006_P36::set_speed(float speed,float acce){
         location_func_handle=nullptr;
     }
     if(speed_func_handle==nullptr){
-        xTaskCreate(speed_contral_task,"speed_contral_task",4096,this,2,&speed_func_handle);
+        xTaskCreate(speed_contral_task,"speed_contral_task",speed_task_stack_size,this,speed_task_Priority,&speed_func_handle);
     }
     taget_speed = speed*36.0;
     acceleration=acce;
