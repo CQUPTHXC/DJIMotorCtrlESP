@@ -7,10 +7,14 @@
 [![Check keywords.txt](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml)
 ## V2.0.0
 ## 概述
+
 该模块可用于esp32芯片arduino框架的大疆电机控制。
 esp32系列只需要外挂一颗CAN收发器，即可实现大疆电机控制。
 
 本文档提供了用于控制大疆电机的DJIMotorCtrlESP模块的详细API说明。
+
+## 类图
+![](./.github/DJIMotorCtrlESP.jpeg)
 
 ## ESP-IDF兼容
 IDFCompatible文件夹中的文件扔到IDF里面并添加编译就能使用了
