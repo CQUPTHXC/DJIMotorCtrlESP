@@ -5,7 +5,7 @@
   "keywords": "ESP32,Dji, 3508, 2006, 6020, motor, control, library,C620,C610,Robomaster,Robocon",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qingmeijiupiao/DJIMotorCtrlESP"
+    "url": "https://github.com/CQUPTHXC/DJIMotorCtrlESP"
   },
   "authors": [
     {
@@ -14,8 +14,9 @@
       "url": "https://github.com/qingmeijiupiao"
     }
   ],
-  "license": "GPL-3.0-or-later",
-  "homepage": "https://github.com/qingmeijiupiao/DJIMotorCtrlESP",
+
+  "license": "MIT",
+  "homepage": "https://github.com/CQUPTHXC/DJIMotorCtrlESP",
   "dependencies": { },
   "frameworks": "Arduino",
   "platforms": "espressif32"
