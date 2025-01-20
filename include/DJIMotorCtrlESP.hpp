@@ -1,9 +1,9 @@
 /*
- * @version: 2.0.0
+ * @version: 2.0.2
  * @Description: 用于控制大疆电机
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2024-12-30 15:03:02
+ * @LastEditTime: 2025-01-20 09:33:00
  * @LastEditors: qingmeijiupiao
  * @rely:PID_CONTROL.hpp,ESP_CAN.hpp
  */
@@ -515,6 +515,7 @@ void DJI_MOTOR::speed_contral_task(void* n){
 
     float taget_control_speed = moto->taget_speed;
     float last_taget_control_speed = moto->taget_speed;
+    auto xLastWakeTime = xTaskGetTickCount();
     while (1){
         float delta_time=1e-6*(micros()-last_update_speed_time); 
         
@@ -555,7 +556,8 @@ void DJI_MOTOR::speed_contral_task(void* n){
         /*PID控制器的计算电流=*/moto->speed_pid_contraler.control(moto->can_data.is_online()*err);//电机在线才计算电流
 
         moto->can_data.set_current = cru;//设置电
-        delay(1000/moto->control_frequency);
+        // 根据数据频率设置延时 
+        xTaskDelayUntil(&xLastWakeTime, configTICK_RATE_HZ / moto->control_frequency);
     }
 }
 //位置闭环控制任务
@@ -563,11 +565,13 @@ void DJI_MOTOR::location_contral_task(void* n){
     DJI_MOTOR* moto = (DJI_MOTOR*) n;
     moto->location_pid_contraler.reset();//重置位置闭环控制器
     float speed=0;
+    auto xLastWakeTime = xTaskGetTickCount();
     while (1){
         //位置闭环控制,由位置误差决定速度,再由速度误差决定电流
         speed = moto->location_pid_contraler.control(moto->location_taget - moto->can_data.location);
         moto->taget_speed = speed;
-        delay(1000/moto->control_frequency);
+        // 根据数据频率设置延时 
+        xTaskDelayUntil(&xLastWakeTime, configTICK_RATE_HZ / moto->control_frequency);
     }
 };
 
@@ -578,6 +582,8 @@ void DJI_MOTOR::update_current_task(void* p){
 
     //获取can总线对应的电机
     can_bus_to_motor& motors = can_bus_map[can_bus];
+
+    auto xLastWakeTime = xTaskGetTickCount();
     while(1){
         int16_t current_data[8]={0,0,0,0,0,0,0,0};
         int16_t GM6020_current_data[7]={0,0,0,0,0,0,0};
@@ -667,8 +673,9 @@ void DJI_MOTOR::update_current_task(void* p){
             tx_msg.data[7] = 0;
             can_bus->send(&tx_msg);
         }
-        //延时
-        delay(1000/motors.send_frequency);
+
+        // 根据数据频率设置延时 
+        xTaskDelayUntil(&xLastWakeTime, configTICK_RATE_HZ / motors.send_frequency);
     }
 }
 
