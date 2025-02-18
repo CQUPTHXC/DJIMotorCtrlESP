@@ -14,8 +14,7 @@
       "url": "https://github.com/qingmeijiupiao"
     }
   ],
-
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/CQUPTHXC/DJIMotorCtrlESP",
   "dependencies": { },
   "frameworks": "Arduino",

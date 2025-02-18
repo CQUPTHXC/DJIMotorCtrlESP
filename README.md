@@ -14,7 +14,7 @@ esp32系列只需要外挂一颗CAN收发器，即可实现大疆电机控制。
 本文档提供了用于控制大疆电机的DJIMotorCtrlESP模块的详细API说明。
 
 ## 类图
-![](./.github/DJIMotorCtrlESP.jpeg)
+![](./.github/DJIMotorCtrlESP.jpg)
 
 ## 控制算法
 本电机库使用如下图的控制方式
