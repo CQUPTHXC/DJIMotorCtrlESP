@@ -3,7 +3,7 @@
  * @LastEditors: qingmeijiupiao
  * @Description: HXC ESP32 twai封装类 继承HXC_CAN
  * @Author: qingmeijiupiao
- * @LastEditTime: 2024-12-18 20:09:15
+ * @LastEditTime: 2024-12-20 16:04:58
  * @Relay: HXC_CAN
  */
 #ifndef HXC_TWAI_HPP
@@ -37,7 +37,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t*} message CAN消息
      */
-    esp_err_t can_send(HXC_CAN_message_t* message) override;
+    esp_err_t send(HXC_CAN_message_t* message) override;
 
     /**
      * @description: 发送CAN消息
@@ -45,7 +45,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t} message CAN消息
      */
-    esp_err_t can_send(HXC_CAN_message_t message) override;
+    esp_err_t send(HXC_CAN_message_t message) override;
 
     /**
      * @description: 停止接收CAN消息
@@ -140,7 +140,7 @@ esp_err_t HXC_TWAI::setup() {
     return ESP_OK;
 }
 
-esp_err_t HXC_TWAI::can_send(HXC_CAN_message_t* message) {
+esp_err_t HXC_TWAI::send(HXC_CAN_message_t* message) {
     if(!is_setup){
         return ESP_FAIL;
     }
@@ -156,7 +156,7 @@ esp_err_t HXC_TWAI::can_send(HXC_CAN_message_t* message) {
     return twai_transmit(&twai_message, portMAX_DELAY);//发送数据并等待发送完成
 }
 
-esp_err_t HXC_TWAI::can_send(HXC_CAN_message_t message) {
+esp_err_t HXC_TWAI::send(HXC_CAN_message_t message) {
     if(!is_setup){
         return ESP_FAIL;
     }

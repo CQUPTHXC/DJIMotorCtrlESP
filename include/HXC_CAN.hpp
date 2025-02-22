@@ -3,7 +3,7 @@
  * @LastEditors: qingmeijiupiao
  * @Description: HXC CAN基类文件,需要用到CAN时应该使用此类作为传入类型，方便扩展不同的CAN方式
  * @Author: qingmeijiupiao
- * @LastEditTime: 2024-12-18 21:42:05
+ * @LastEditTime: 2024-12-20 16:04:02
  */
 
 #ifndef HXC_CAN_BASE_HPP
@@ -70,7 +70,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t*} message CAN消息指针
      */
-    virtual esp_err_t can_send(HXC_CAN_message_t* message);
+    virtual esp_err_t send(HXC_CAN_message_t* message);
 
     /**
      * @description: 发送CAN消息
@@ -78,7 +78,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t} message CAN消息
      */
-    virtual esp_err_t can_send(HXC_CAN_message_t message);
+    virtual esp_err_t send(HXC_CAN_message_t message);
 
     /**
      * @description: 添加CAN消息接收回调,收到对应地址的消息时运行回调函数
@@ -131,13 +131,13 @@ esp_err_t HXC_CAN::setup(CAN_RATE can_rate) {
 }
 
 // 发送CAN消息函数，接收消息指针作为参数
-esp_err_t HXC_CAN::can_send(HXC_CAN_message_t* message) {
-    return ESP_FAIL; //不应该调用基类的can_send函数
+esp_err_t HXC_CAN::send(HXC_CAN_message_t* message) {
+    return ESP_FAIL; //不应该调用基类的send函数
 }
 
 // 发送CAN消息函数，接收CAN消息对象作为参数
-esp_err_t HXC_CAN::can_send(HXC_CAN_message_t message) {
-    return ESP_FAIL; //不应该调用基类的can_send函数
+esp_err_t HXC_CAN::send(HXC_CAN_message_t message) {
+    return ESP_FAIL; //不应该调用基类的send函数
 }
 
 // 添加CAN消息接收回调函数

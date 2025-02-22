@@ -28,7 +28,7 @@ IDFCompatible文件夹中的文件扔到IDF里面并添加编译就能使用了
 
 HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 
-MOTOR motor1(/*CAN_chanel*/&CAN_BUS,/*ID*/1);
+M3508_P19 motor1(/*CAN_chanel*/&CAN_BUS,/*ID*/1);
 GM6020 motor2(/*CAN_chanel*/&CAN_BUS,/*ID*/2);
 
 void setup(){
