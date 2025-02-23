@@ -5,7 +5,7 @@
 [![Compile Examples](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/workflows/Compile%20Examples/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions?workflow=Compile+Examples)
 [![Check Arduino](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml)
 [![Check keywords.txt](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml)
-## V2.0.2
+## V2.0.3
 ## 概述
 
 该模块可用于esp32芯片arduino框架的大疆电机控制。
@@ -76,7 +76,7 @@ esp_err_t setup(CAN_RATE can_rate);
 ### 发送CAN消息
 
 ```cpp
-esp_err_t can_send(HXC_CAN_message_t* message);
+esp_err_t send(HXC_CAN_message_t* message);
 ```
 发送CAN消息。
 
@@ -86,7 +86,7 @@ esp_err_t can_send(HXC_CAN_message_t* message);
 ---
 
 ```cpp
-esp_err_t can_send(HXC_CAN_message_t message);
+esp_err_t send(HXC_CAN_message_t message);
 ```
 发送CAN消息。
 
