@@ -3,13 +3,14 @@
  * @LastEditors: qingmeijiupiao
  * @Description: HXC CAN基类文件,需要用到CAN时应该使用此类作为传入类型，方便扩展不同的CAN方式
  * @Author: qingmeijiupiao
- * @LastEditTime: 2024-12-20 16:04:02
+ * @LastEditTime: 2025-02-25 20:17:26
  */
 
 #ifndef HXC_CAN_BASE_HPP
 #define HXC_CAN_BASE_HPP
+#include "esp_err.h"
 #include <map>
-
+#include <functional>
 /*↓↓↓本文件的声明↓↓↓*/
 
 //CAN基类,需要用到CAN时应该使用此类作为传入类型，方便扩展不同的CAN方式

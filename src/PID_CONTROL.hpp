@@ -2,7 +2,7 @@
  * @Description: PID控制器
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2024-10-27 20:02:21
+ * @LastEditTime: 2024-12-30 15:23:44
  * @LastEditors: qingmeijiupiao
  */
 
@@ -155,7 +155,7 @@ public:
         return control(error);
     }
 
-    // private:
+    //private:
     double Kp;         // 比例系数
     double Ki;         // 积分系数
     double Kd;         // 微分系数
