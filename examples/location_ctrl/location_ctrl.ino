@@ -1,5 +1,5 @@
-#include "../../include/DJIMotorCtrlESP.hpp"
-#include "../../include/HXC_TWAI.hpp"
+#include "DJIMotorCtrlESP.hpp"
+#include "HXC_TWAI.hpp"
 /* 位置控制 */
 HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 // 3508电机

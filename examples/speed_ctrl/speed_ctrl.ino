@@ -1,18 +1,18 @@
-#include "../../include/DJIMotorCtrlESP.hpp"
-#include "../../include/HXC_TWAI.hpp"
+#include "DJIMotorCtrlESP.hpp"
+#include "HXC_TWAI.hpp"
 /* 速度控制 */
 
 
 HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 
 // 3508电机
-M3508_P19 MOTOR1(/*ID=*/1);
+M3508_P19 MOTOR1(&CAN_BUS,/*ID=*/1);
 
 // 2006电机
-M2006_P19 MOTOR2(/*ID=*/2);
+M2006_P19 MOTOR2(&CAN_BUS,/*ID=*/2);
 
 // GM6020电机
-GM6020 MOTOR3(/*ID=*/3);
+GM6020 MOTOR3(&CAN_BUS,/*ID=*/3);
 
 void setup()
 {

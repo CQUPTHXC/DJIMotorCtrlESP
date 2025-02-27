@@ -5,7 +5,7 @@
 [![Compile Examples](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/workflows/Compile%20Examples/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions?workflow=Compile+Examples)
 [![Check Arduino](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml)
 [![Check keywords.txt](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml)
-## V2.0.4
+## V2.0.5
 ## 概述
 
 该模块可用于esp32芯片arduino框架的大疆电机控制。
@@ -114,7 +114,7 @@ void add_can_receive_callback_func(int addr, HXC_can_feedback_func func);
 
 HXC_TWAI CAN_BUS(/*TX=*/8, /*RX=*/18);
 
-void func2(twai_message_t* can_message){
+void func2(HXC_CAN_message_t* can_message){
     //打印收到的数据
     for(int i=0;i<can_message->data_length_code;i++){
       Serial.print(can_message->data[i],HEX);
