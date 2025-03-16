@@ -3,14 +3,14 @@
  * @LastEditors: qingmeijiupiao
  * @Description: HXC CAN基类文件,需要用到CAN时应该使用此类作为传入类型，方便扩展不同的CAN方式
  * @Author: qingmeijiupiao
- * @LastEditTime: 2025-02-25 20:17:26
+ * @LastEditTime: 2025-03-16 19:45:45
  */
 
 #ifndef HXC_CAN_BASE_HPP
 #define HXC_CAN_BASE_HPP
-#include "esp_err.h"
+#include "HXC_std_err_def.h"
 #include <map>
-#include <functional>
+
 /*↓↓↓本文件的声明↓↓↓*/
 
 //CAN基类,需要用到CAN时应该使用此类作为传入类型，方便扩展不同的CAN方式
@@ -63,7 +63,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {CAN_RATE} can_rate CAN速率
      */
-    virtual esp_err_t setup(CAN_RATE can_rate);
+    virtual hxc_err_t setup(CAN_RATE can_rate);
 
     /**
      * @description: 发送CAN消息
@@ -71,7 +71,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t*} message CAN消息指针
      */
-    virtual esp_err_t send(HXC_CAN_message_t* message);
+    virtual hxc_err_t send(HXC_CAN_message_t* message);
 
     /**
      * @description: 发送CAN消息
@@ -79,7 +79,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t} message CAN消息
      */
-    virtual esp_err_t send(HXC_CAN_message_t message);
+    virtual hxc_err_t send(HXC_CAN_message_t message);
 
     /**
      * @description: 添加CAN消息接收回调,收到对应地址的消息时运行回调函数

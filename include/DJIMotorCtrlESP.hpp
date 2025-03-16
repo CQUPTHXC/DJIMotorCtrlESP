@@ -1,9 +1,9 @@
 /*
- * @version: 2.0.2
+ * @version: 2.1.0
  * @Description: 用于控制大疆电机
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2025-01-20 09:33:00
+ * @LastEditTime: 2025-03-16 20:11:00
  * @LastEditors: qingmeijiupiao
  * @rely:PID_CONTROL.hpp,ESP_CAN.hpp
  */
@@ -363,30 +363,24 @@ void DJI_MOTOR::set_speed_pid(pid_param speed_pid){
 };
 
 void DJI_MOTOR::set_location_pid(float _location_Kp, float _location_Ki, float _location_Kd, float __dead_zone, float _max_speed){
-    location_pid_contraler.Kp=_location_Kp;
-    location_pid_contraler.Ki=_location_Ki;
-    location_pid_contraler.Kd=_location_Kd;
-    location_pid_contraler._dead_zone=__dead_zone;
-    location_pid_contraler._max_value=_max_speed;
+    location_pid_contraler.setPram(_location_Kp, _location_Ki, _location_Kd, __dead_zone, _max_speed);
 }
 
 void DJI_MOTOR::set_speed_pid(float _speed_Kp, float _speed_Ki, float _speed_Kd, float __dead_zone, float _max_curunt){
-    speed_pid_contraler.Kp=_speed_Kp;
-    speed_pid_contraler.Ki=_speed_Ki;
-    speed_pid_contraler.Kd=_speed_Kd;
-    speed_pid_contraler._dead_zone=__dead_zone;
-    max_curunt=_max_curunt;
     if(max_curunt>16384||max_curunt<=0){//最大电流限制
         max_curunt=16384;
     }
-    speed_pid_contraler._max_value=_max_curunt;
+    speed_pid_contraler.setPram(_speed_Kp, _speed_Ki, _speed_Kd, __dead_zone, _max_curunt);
+    max_curunt=_max_curunt;
     speed_pid_contraler.reset();
     location_pid_contraler.reset();
 }
 
 void DJI_MOTOR::set_max_curunt(float _max_curunt){
-    if(_max_curunt>16384||max_curunt<=0)
+    if(_max_curunt>16384||max_curunt<=0){
         _max_curunt=16384;
+    }
+    speed_pid_contraler.setPram(0, 0, 0, 0, _max_curunt);
     max_curunt=_max_curunt;
 }
 

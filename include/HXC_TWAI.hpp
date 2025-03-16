@@ -3,7 +3,7 @@
  * @LastEditors: qingmeijiupiao
  * @Description: HXC ESP32 twai封装类 继承HXC_CAN
  * @Author: qingmeijiupiao
- * @LastEditTime: 2024-12-20 16:04:58
+ * @LastEditTime: 2025-03-16 19:46:26
  * @Relay: HXC_CAN
  */
 #ifndef HXC_TWAI_HPP
@@ -29,7 +29,7 @@ public:
      * @return {esp_err_t} 成功返回ESP_OK
      * @Author: qingmeijiupiao
      */
-    esp_err_t setup();
+    hxc_err_t setup();
 
     /**
      * @description: 发送CAN消息
@@ -37,7 +37,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t*} message CAN消息
      */
-    esp_err_t send(HXC_CAN_message_t* message) override;
+    hxc_err_t send(HXC_CAN_message_t* message) override;
 
     /**
      * @description: 发送CAN消息
@@ -45,7 +45,7 @@ public:
      * @Author: qingmeijiupiao
      * @param {HXC_CAN_message_t} message CAN消息
      */
-    esp_err_t send(HXC_CAN_message_t message) override;
+    hxc_err_t send(HXC_CAN_message_t message) override;
 
     /**
      * @description: 停止接收CAN消息

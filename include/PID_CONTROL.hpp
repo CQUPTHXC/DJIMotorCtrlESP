@@ -2,13 +2,26 @@
  * @Description: PID控制器
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2024-12-30 15:23:44
+ * @LastEditTime: 2025-03-16 20:03:21
  * @LastEditors: qingmeijiupiao
  */
 
 #ifndef PID_CONTROL_HPP
 #define PID_CONTROL_HPP
-#include <Arduino.h>
+
+#include <cmath>
+
+#include <Arduino.h>//使用micros()
+
+// 获取当前时间,单位微秒,移植时按需修改
+
+
+static inline int64_t now_time_us() { 
+    return micros(); 
+}
+
+
+
 // PID参数结构体
 struct pid_param
 {
@@ -146,16 +159,8 @@ public:
     {
         return pid_param(Kp, Ki, Kd, _dead_zone, _max_value);
     }
-    double operator>>(double error)
-    {
-        return control(error);
-    }
-    double operator<<(double error)
-    {
-        return control(error);
-    }
 
-    //private:
+    private:
     double Kp;         // 比例系数
     double Ki;         // 积分系数
     double Kd;         // 微分系数
@@ -164,7 +169,7 @@ public:
     double setpoint;   // 设定值
     double integral;   // 积分项
     double prevError;  // 上一次误差
-    double last_contrl_time = 0;
+    double last_contrl_time = 0; // 上一次控制时间
 };
 
 #endif
