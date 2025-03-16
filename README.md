@@ -64,7 +64,7 @@ void setup(){
 ## HXC_CAN
 
 ```cpp
-esp_err_t setup(CAN_RATE can_rate);
+hxc_err_t setup(CAN_RATE can_rate);
 ```
 初始化CAN总线通信，必须在使用CAN之前调用此函数。
 
@@ -76,7 +76,7 @@ esp_err_t setup(CAN_RATE can_rate);
 ### 发送CAN消息
 
 ```cpp
-esp_err_t send(HXC_CAN_message_t* message);
+hxc_err_t send(HXC_CAN_message_t* message);
 ```
 发送CAN消息。
 
@@ -86,7 +86,7 @@ esp_err_t send(HXC_CAN_message_t* message);
 ---
 
 ```cpp
-esp_err_t send(HXC_CAN_message_t message);
+hxc_err_t send(HXC_CAN_message_t message);
 ```
 发送CAN消息。
 
