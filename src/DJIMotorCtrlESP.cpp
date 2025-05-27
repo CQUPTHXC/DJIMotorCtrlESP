@@ -3,7 +3,7 @@
  * @Description: 用于控制大疆电机
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2025-05-18 20:48:43
+ * @LastEditTime: 2025-05-27 16:11:52
  * @LastEditors: qingmeijiupiao
  * @rely:PID_CONTROL.hpp,ESP_CAN.hpp
  */
@@ -446,20 +446,19 @@ void DJI_MOTOR::DJI_MOTOR_DATA::update_location(){
 
     int now = micros();
 
-    int delta=0;
 
-    if((now_angle+8192-last_angle)%8192<4096){//正转
-        delta=now_angle-last_angle;
-        if (delta<0){
-            delta+=8192;
-        }
-    }else{
-        delta=now_angle-last_angle;
-        if (delta>0){
-            delta-=8192;
-        }
+    constexpr int MAX_POSITION = 8191;
+    constexpr int HALF_POSITION = MAX_POSITION / 2;
+    // 更新电机的多圈位置
+    int delta = POS - POS_raw;
+    
+    // 处理位置回绕情况
+    if (delta > HALF_POSITION) {
+        delta -= MAX_POSITION + 1;  // 正向回绕
+    } else if (delta < -HALF_POSITION) {
+        delta += MAX_POSITION + 1;  // 负向回绕
     }
-
+    
     location += delta;
     last_location_update_time=now;
     last_angle=now_angle;   
