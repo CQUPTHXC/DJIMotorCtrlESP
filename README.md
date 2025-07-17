@@ -5,7 +5,8 @@
 [![Compile Examples](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/workflows/Compile%20Examples/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions?workflow=Compile+Examples)
 [![Check Arduino](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-arduino.yml)
 [![Check keywords.txt](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml/badge.svg)](https://github.com/qingmeijiupiao/DJIMotorCtrlESP/actions/workflows/check-keywords-txt.yml)
-## V2.3.0
+## V2.4.0
+2.4.0版本之后HXC_CAN将不作以内置文件的形式在ESP32平台上使用改为使用platformio的依赖方式,之前将DJIMotorCtrlESP仓库放置lib下的用法需要额外添加HXC_CAN模块
 ## 概述
 
 该模块可用于esp32芯片arduino框架的大疆电机控制。
