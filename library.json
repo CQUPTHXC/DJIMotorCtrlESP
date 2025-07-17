@@ -17,7 +17,7 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/CQUPTHXC/DJIMotorCtrlESP",
   "dependencies": {
-    "qingmeijiupiao/HXC_CAN": "^1.0.1"
+    "qingmeijiupiao/HXC_CAN": "^1.0.2"
   },
   "frameworks": "Arduino",
   "platforms": "espressif32"
