@@ -1,9 +1,9 @@
 /*
- * @version: v1.0.0
+ * @version: v1.1.0
  * @LastEditors: qingmeijiupiao
  * @Description: HXC标准错误头文件
  * @author: qingmeijiupiao
- * @LastEditTime: 2025-05-11 14:07:07
+ * @LastEditTime: 2025-07-17 11:07:07
  */
 #ifndef HXC_STD_DEF_HPP_
 #define HXC_STD_DEF_HPP_
@@ -22,7 +22,7 @@ typedef int hxc_err_t;
 //超时
 #define HXC_ERR_TIMEOUT             0x107
 
-
+#include <Arduino.h>
 static inline int64_t now_time_us() { 
     return micros(); 
 }

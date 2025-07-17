@@ -1,6 +1,6 @@
 {
   "name": "DJIMotorCtrlESP",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "A library for controlling DJI M3508, M2006, and GM6020 motors using ESP32.",
   "keywords": "ESP32,Dji, 3508, 2006, 6020, motor, control, library,C620,C610,Robomaster,Robocon",
   "repository": {
@@ -17,7 +17,7 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/CQUPTHXC/DJIMotorCtrlESP",
   "dependencies": {
-    "qingmeijiupiao/HXC_CAN": "^1.0.2"
+    "qingmeijiupiao/HXC_CAN": "^1.0.3"
   },
   "frameworks": "Arduino",
   "platforms": "espressif32"
