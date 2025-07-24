@@ -2,7 +2,7 @@
  * @Description: PID控制器
  * @Author: qingmeijiupiao
  * @Date: 2024-04-13 21:00:21
- * @LastEditTime: 2025-03-16 20:03:21
+ * @LastEditTime: 2025-07-24 11:42:39
  * @LastEditors: qingmeijiupiao
  */
 
@@ -12,14 +12,6 @@
 #include <cmath>
 
 #include <Arduino.h>//使用micros()
-
-// 获取当前时间,单位微秒,移植时按需修改
-
-
-static inline int64_t now_time_us() { 
-    return micros(); 
-}
-
 
 
 // PID参数结构体
